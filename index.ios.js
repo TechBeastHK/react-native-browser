@@ -12,6 +12,9 @@ var RCTBrowserExport = {
   open: function(url, options={}) {
     Browser.presentUrl(url, options);
   },
+  close: function (){
+    Browser.close();
+  }
 };
 
 module.exports = RCTBrowserExport;

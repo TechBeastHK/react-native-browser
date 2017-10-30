@@ -8,6 +8,14 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(presentUrl:(NSString *)url withOptions:(NSDictionary *)options) {
 
+    if ([[options objectForKey:@"deleteAllCookies"] isEqual: @(YES)]) {
+        NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (NSHTTPCookie *cookie in [storage cookies]) {
+            [storage deleteCookie:cookie];
+        }
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+
     TOWebViewController *webVC = [[TOWebViewController alloc] initWithURLString:url];
 
     [options enumerateKeysAndObjectsUsingBlock:^(NSString* key, id obj, BOOL *stop) {
@@ -65,6 +73,13 @@ RCT_EXPORT_METHOD(presentUrl:(NSString *)url withOptions:(NSDictionary *)options
     dispatch_async(dispatch_get_main_queue(), ^{
         [rootVC presentViewController:nav animated:YES completion: nil];
     });
+    
+    self.browser = webVC;
+}
+
+RCT_EXPORT_METHOD(close) {
+    UIViewController *rootVC = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootVC dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
