@@ -1,6 +1,8 @@
 # react-native-browser
 A full-featured web browser module for React Native apps, based on the awesome [TOWebViewController](https://github.com/TimOliver/TOWebViewController)
 
+***Added a close() method to close the browser programatically***
+
 ![TOWebViewController](screenshot.jpg)
 
 ### Installation
